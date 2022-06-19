@@ -8,7 +8,7 @@ public class ParkingLot {
     private final Integer capacity;
 
     public ParkingLot(Integer capacity) {
-        this.ticketCarMap = new HashMap<>();
+        this.ticketCarMap = new HashMap<>(capacity);
         this.capacity = capacity;
     }
 
