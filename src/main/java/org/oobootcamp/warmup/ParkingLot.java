@@ -26,6 +26,7 @@ public class ParkingLot {
             throw new RuntimeException("停车场已满");
         }
         Ticket ticket = new Ticket();
+        ticket.setParkingLot(this);
         ticketCarMap.put(ticket, car);
         return ticket;
     }
