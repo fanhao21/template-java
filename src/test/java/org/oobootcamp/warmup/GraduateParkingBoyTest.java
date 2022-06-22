@@ -22,7 +22,7 @@ class GraduateParkingBoyTest {
         Ticket ticket = parkingBoy.park(car);
 
         // then
-        assertThat(ticket).isNotNull();
+        assertThat(parkingLotA.pickUp(ticket)).isSameAs(car);
     }
 
     // -  Given A/B均有一个车位, When 停车, Then 在A停车场停车成功并获得停车票
@@ -38,8 +38,9 @@ class GraduateParkingBoyTest {
         Ticket ticket = boy.park(car);
 
         // then
-        assertThat(ticket).isNotNull();
+        assertThat(parkA.pickUp(ticket)).isSameAs(car);
     }
+
     // - Given A停车场已满，停车场B有一个空闲车位，When 停车, Then 停车到B停车场，并且获得停车票
     @Test
     void should_return_ticket_when_park_given_A_is_full_and_B_has_one_vacancy() {
@@ -49,13 +50,13 @@ class GraduateParkingBoyTest {
         ParkingLot parkA = new ParkingLot(1);
         ParkingLot parkB = new ParkingLot(1);
         GraduateParkingBoy boy = new GraduateParkingBoy(List.of(parkA, parkB));
+        parkA.park(anotherCar);
 
         // when
-        boy.park(anotherCar);
         Ticket ticket = boy.park(car);
 
         // then
-        assertThat(ticket).isNotNull();
+        assertThat(parkB.pickUp(ticket)).isSameAs(car);
     }
 
     // AC 当所有停车场无空车位时, 提示：“停车场已满”
@@ -97,6 +98,7 @@ class GraduateParkingBoyTest {
         // then
         assertThat(actual).isEqualTo(myCar);
     }
+
     //  Given 有两个停车场A和B，用户的车在停车场A，有对应停车票 When 取车, Then 小弟成功取回停在停车场的车
     @Test
     void should_return_car_when_pick_up_given_A_B_parking_lot_and_the_car_is_parked_at_A() {
@@ -114,7 +116,6 @@ class GraduateParkingBoyTest {
         // then
         assertThat(actual).isEqualTo(myCar);
     }
-
 
     // AC：使用过的停车票取票，提示：“此票无效，请检查”
     // Given用户停车到停车场，并且拿对应的票取到车，再用相同的票, When 取车, Then 提示：“此票无效，请检查”
