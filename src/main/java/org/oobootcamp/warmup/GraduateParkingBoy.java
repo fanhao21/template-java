@@ -2,10 +2,9 @@ package org.oobootcamp.warmup;
 
 import java.util.List;
 
-public record GraduateParkingBoy(List<Customer> members, List<ParkingLot> parkingLots) {
+public record GraduateParkingBoy(List<ParkingLot> parkingLots) {
 
-    public Ticket park(Customer customer, Car car) {
-        checkMembers(customer);
+    public Ticket park(Car car) {
         for (ParkingLot parkingLot : parkingLots) {
             try {
                 return parkingLot.park(car);
@@ -15,12 +14,6 @@ public record GraduateParkingBoy(List<Customer> members, List<ParkingLot> parkin
         throw new RuntimeException("停车场已满");
     }
 
-    private void checkMembers(Customer customer) {
-        boolean isMember = members.stream().anyMatch(it -> it.equals(customer));
-        if (!isMember) {
-            throw new RuntimeException("请先充值办理银卡VIP会员");
-        }
-    }
 
     public Car pickup(Ticket ticket) {
         for (ParkingLot parkingLot : parkingLots) {
