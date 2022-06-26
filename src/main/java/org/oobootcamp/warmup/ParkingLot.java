@@ -13,7 +13,7 @@ public class ParkingLot {
     }
 
     public Car pickUp(Ticket ticket) {
-        if (!ticketCarMap.containsKey(ticket)) {
+        if (!checkTicket(ticket)) {
             throw new RuntimeException("此票无效，请检查");
         }
         Car car = ticketCarMap.get(ticket);
@@ -21,16 +21,24 @@ public class ParkingLot {
         return car;
     }
 
-    public Ticket park(Car car) {
-        if (isFull()) {
-            throw new RuntimeException("停车场已满");
-        }
-        Ticket ticket = new Ticket();
-        ticketCarMap.put(ticket, car);
-        return ticket;
+    public boolean checkTicket(Ticket ticket) {
+        return ticketCarMap.containsKey(ticket);
     }
 
-    private boolean isFull() {
-        return ticketCarMap.size() == capacity;
+    public Ticket park(Car car) {
+        if (available()) {
+            Ticket ticket = new Ticket();
+            ticketCarMap.put(ticket, car);
+            return ticket;
+        }
+        throw new RuntimeException("停车场已满");
+    }
+
+    public boolean available() {
+        return allowance() > 0;
+    }
+
+    public int allowance() {
+        return capacity - ticketCarMap.size();
     }
 }

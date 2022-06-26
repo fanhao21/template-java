@@ -1,27 +1,19 @@
 package org.oobootcamp.warmup;
 
 import java.util.List;
+import java.util.Optional;
 
-public record SmartParkingBoy(List<ParkingLot> parkingLots) {
+public class SmartParkingBoy extends AbstractParkingBoy {
 
-    public Ticket park(Car car) {
-        for (ParkingLot parkingLot : parkingLots) {
-            try {
-                return parkingLot.park(car);
-            } catch (RuntimeException ignored) {
-            }
-        }
-        throw new RuntimeException("停车场已满");
+    public SmartParkingBoy(List<ParkingLot> parkingLots) {
+        super(parkingLots);
     }
 
-
-    public Car pickup(Ticket ticket) {
-        for (ParkingLot parkingLot : parkingLots) {
-            try {
-                return parkingLot.pickUp(ticket);
-            } catch (RuntimeException ignored) {
-            }
-        }
-        throw new RuntimeException("此票无效，请检查");
+    @Override
+    Optional<ParkingLot> findParkingLot() {
+        return parkingLots.stream()
+                .sorted((left, right) -> Integer.compare(right.allowance(), left.allowance()))
+                .filter(ParkingLot::available)
+                .findFirst();
     }
 }
