@@ -1,10 +1,9 @@
 package org.oobootcamp.warmup;
 
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.HashMap;
-import org.junit.jupiter.api.Test;
 
 class ParkingLotUnitTest {
     // AC1： 当停车场有空位时，用户去停车，能停车成功并且取到停车票
@@ -13,7 +12,7 @@ class ParkingLotUnitTest {
     void should_get_a_parking_ticket_when_parking_given_a_car_and_available_lots() {
         // given
         Integer capacity = 1;
-        ParkingLot parkingLot = new ParkingLot(capacity);
+        ParkingManagement parkingLot = new ParkingLot(capacity);
         Car car = new Car();
 
         // when
@@ -29,7 +28,7 @@ class ParkingLotUnitTest {
     void should_throw_parking_lot_is_full_exception_when_park_given_a_car_and_no_available_lots() {
         // given
         Integer capacity = 1;
-        ParkingLot parkingLot = new ParkingLot(capacity);
+        ParkingManagement parkingLot = new ParkingLot(capacity);
         parkingLot.park(new Car());
         Car car = new Car();
 
@@ -47,11 +46,11 @@ class ParkingLotUnitTest {
         // given
         Car parkedCar = new Car();
         Integer capacity = 3;
-        ParkingLot parkingLot = new ParkingLot(capacity);
+        ParkingManagement parkingLot = new ParkingLot(capacity);
         Ticket ticket = parkingLot.park(parkedCar);
 
         // when
-        Car pickedUpCar = parkingLot.pickUp(ticket);
+        Car pickedUpCar = parkingLot.pickup(ticket);
 
         // then
         assertThat(pickedUpCar).isEqualTo(parkedCar);
@@ -64,12 +63,12 @@ class ParkingLotUnitTest {
         // given
         Integer capacity = 10;
         Car car = new Car();
-        ParkingLot parkingLot = new ParkingLot(capacity);
+        ParkingManagement parkingLot = new ParkingLot(capacity);
         Ticket ticket = parkingLot.park(car);
-        parkingLot.pickUp(ticket);
+        parkingLot.pickup(ticket);
 
         // when & then
-        assertThatThrownBy(() -> parkingLot.pickUp(ticket))
+        assertThatThrownBy(() -> parkingLot.pickup(ticket))
                 .isInstanceOf(RuntimeException.class)
                 .extracting("message")
                 .isEqualTo("此票无效，请检查");
@@ -81,11 +80,11 @@ class ParkingLotUnitTest {
     void should_get_no_car_when_retrieve_given_an_invalid_ticket() {
         // given
         Integer capacity = 10;
-        ParkingLot parkingLot = new ParkingLot(capacity);
+        ParkingManagement parkingLot = new ParkingLot(capacity);
 
         // when & then
         Ticket ticket = new Ticket();
-        assertThatThrownBy(() -> parkingLot.pickUp(ticket))
+        assertThatThrownBy(() -> parkingLot.pickup(ticket))
                 .isInstanceOf(RuntimeException.class)
                 .extracting("message")
                 .isEqualTo("此票无效，请检查");

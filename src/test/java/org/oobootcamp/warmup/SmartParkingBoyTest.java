@@ -12,67 +12,67 @@ class SmartParkingBoyTest {
     void should_return_ticket_given_one_lot_vacancy_when_park() {
         // given
         Car myCar = new Car();
-        ParkingLot parkingLotA = new ParkingLot(1);
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA));
+        ParkingManagement parkingLotA = new ParkingLot(1);
+        ParkingManagement smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA));
 
         // when
         Ticket ticket = smartParkingBoy.park(myCar);
 
         // then
-        assertThat(parkingLotA.checkTicket(ticket)).isTrue();
+        assertThat(parkingLotA.pickup(ticket)).isEqualTo(myCar);
     }
 
     @Test
     void should_return_ticket_given_two_lot_has_one_vacancy_when_park() {
         // given
         Car myCar = new Car();
-        ParkingLot parkingLotA = new ParkingLot(1);
-        ParkingLot parkingLotB = new ParkingLot(1);
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA, parkingLotB));
+        ParkingManagement parkingLotA = new ParkingLot(1);
+        ParkingManagement parkingLotB = new ParkingLot(1);
+        ParkingManagement smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA, parkingLotB));
 
         // when
         Ticket ticket = smartParkingBoy.park(myCar);
 
         // then
-        assertThat(parkingLotA.checkTicket(ticket)).isTrue();
+        assertThat(parkingLotA.pickup(ticket)).isEqualTo(myCar);
     }
 
     @Test
     void should_return_ticket_given_one_lot_has_one_vacancy_and_other_has_two_when_park() {
         // given
         Car myCar = new Car();
-        ParkingLot parkingLotA = new ParkingLot(1);
-        ParkingLot parkingLotB = new ParkingLot(2);
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA, parkingLotB));
+        ParkingManagement parkingLotA = new ParkingLot(1);
+        ParkingManagement parkingLotB = new ParkingLot(2);
+        ParkingManagement smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA, parkingLotB));
         // when
         Ticket ticket = smartParkingBoy.park(myCar);
 
         // then
-        assertThat(parkingLotB.checkTicket(ticket)).isTrue();
+        assertThat(parkingLotB.pickup(ticket)).isEqualTo(myCar);
     }
 
     @Test
     void should_return_ticket_given_one_lot_has_one_vacancy_and_other_two_have_same_available_lot_when_park() {
         // given
         Car myCar = new Car();
-        ParkingLot parkingLotA = new ParkingLot(1);
-        ParkingLot parkingLotB = new ParkingLot(2);
-        ParkingLot parkingLotC = new ParkingLot(2);
-        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA, parkingLotB, parkingLotC));
+        ParkingManagement parkingLotA = new ParkingLot(1);
+        ParkingManagement parkingLotB = new ParkingLot(2);
+        ParkingManagement parkingLotC = new ParkingLot(2);
+        ParkingManagement smartParkingBoy = new SmartParkingBoy(List.of(parkingLotA, parkingLotB, parkingLotC));
         // when
         Ticket ticket = smartParkingBoy.park(myCar);
 
         // then
-        assertThat(parkingLotB.checkTicket(ticket)).isTrue();
+        assertThat(parkingLotB.pickup(ticket)).isEqualTo(myCar);
     }
 
     @Test
     void should_throw_parking_lot_is_full_exception_when_park_given_A_B_is_full() {
         // given
         Car myCar = new Car();
-        ParkingLot parkA = new ParkingLot(1);
-        ParkingLot parkB = new ParkingLot(1);
-        SmartParkingBoy boy = new SmartParkingBoy(List.of(parkA, parkB));
+        ParkingManagement parkA = new ParkingLot(1);
+        ParkingManagement parkB = new ParkingLot(1);
+        ParkingManagement boy = new SmartParkingBoy(List.of(parkA, parkB));
 
         parkA.park(new Car());
         parkB.park(new Car());
@@ -87,10 +87,10 @@ class SmartParkingBoyTest {
     @Test
     void should_return_car_when_pick_up_given_A_B_parking_lot_and_the_car_is_parked_at_B() {
         // given
-        ParkingLot parkA = new ParkingLot(1);
-        ParkingLot parkB = new ParkingLot(2);
+        ParkingManagement parkA = new ParkingLot(1);
+        ParkingManagement parkB = new ParkingLot(2);
         Car myCar = new Car();
-        SmartParkingBoy boy = new SmartParkingBoy(List.of(parkA, parkB));
+        ParkingManagement boy = new SmartParkingBoy(List.of(parkA, parkB));
         Ticket ticket = boy.park(myCar);
 
         // when
@@ -103,11 +103,11 @@ class SmartParkingBoyTest {
     @Test
     void should_throw_invalid_ticket_exception_when_pickup_given_a_used_ticket() {
         // given
-        ParkingLot parkA = new ParkingLot(1);
+        ParkingManagement parkA = new ParkingLot(1);
         Car myCar = new Car();
         Ticket ticket = parkA.park(myCar);
-        parkA.pickUp(ticket);
-        SmartParkingBoy boy = new SmartParkingBoy(List.of(parkA));
+        parkA.pickup(ticket);
+        ParkingManagement boy = new SmartParkingBoy(List.of(parkA));
 
         // when & then
         assertThatThrownBy(() -> boy.pickup(ticket))

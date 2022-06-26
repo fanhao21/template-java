@@ -2,9 +2,9 @@ package org.oobootcamp.warmup;
 
 import java.util.List;
 
-public class GraduateParkingBoy extends ParkingDelegator {
+public class ParkingManager extends ParkingDelegator {
 
-    public GraduateParkingBoy(List<ParkingManagement> parkingManagements) {
+    public ParkingManager(List<ParkingManagement> parkingManagements) {
         super(parkingManagements);
     }
 

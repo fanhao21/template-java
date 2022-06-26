@@ -15,14 +15,14 @@ class GraduateParkingBoyTest {
     void should_return_ticket_when_park_given_only_A_parking_lot_and_A_has_vacancy() {
         // given
         Car car = new Car();
-        ParkingLot parkingLotA = new ParkingLot(1);
-        GraduateParkingBoy parkingBoy = new GraduateParkingBoy(List.of(parkingLotA));
+        ParkingManagement parkingLotA = new ParkingLot(1);
+        ParkingManagement parkingBoy = new GraduateParkingBoy(List.of(parkingLotA));
 
         // when
         Ticket ticket = parkingBoy.park(car);
 
         // then
-        assertThat(parkingLotA.pickUp(ticket)).isSameAs(car);
+        assertThat(parkingLotA.pickup(ticket)).isSameAs(car);
     }
 
     // -  Given A/B均有一个车位, When 停车, Then 在A停车场停车成功并获得停车票
@@ -30,15 +30,15 @@ class GraduateParkingBoyTest {
     void should_return_ticket_when_park_given_A_B_both_have_one_vacancy() {
         // given
         Car car = new Car();
-        ParkingLot parkA = new ParkingLot(1);
-        ParkingLot parkB = new ParkingLot(1);
-        GraduateParkingBoy boy = new GraduateParkingBoy(List.of(parkA, parkB));
+        ParkingManagement parkA = new ParkingLot(1);
+        ParkingManagement parkB = new ParkingLot(1);
+        ParkingManagement boy = new GraduateParkingBoy(List.of(parkA, parkB));
 
         // when
         Ticket ticket = boy.park(car);
 
         // then
-        assertThat(parkA.pickUp(ticket)).isSameAs(car);
+        assertThat(parkA.pickup(ticket)).isSameAs(car);
     }
 
     // - Given A停车场已满，停车场B有一个空闲车位，When 停车, Then 停车到B停车场，并且获得停车票
@@ -47,16 +47,16 @@ class GraduateParkingBoyTest {
         // given
         Car car = new Car();
         Car anotherCar = new Car();
-        ParkingLot parkA = new ParkingLot(1);
-        ParkingLot parkB = new ParkingLot(1);
-        GraduateParkingBoy boy = new GraduateParkingBoy(List.of(parkA, parkB));
+        ParkingManagement parkA = new ParkingLot(1);
+        ParkingManagement parkB = new ParkingLot(1);
+        ParkingManagement boy = new GraduateParkingBoy(List.of(parkA, parkB));
         parkA.park(anotherCar);
 
         // when
         Ticket ticket = boy.park(car);
 
         // then
-        assertThat(parkB.pickUp(ticket)).isSameAs(car);
+        assertThat(parkB.pickup(ticket)).isSameAs(car);
     }
 
     // AC 当所有停车场无空车位时, 提示：“停车场已满”
@@ -66,9 +66,9 @@ class GraduateParkingBoyTest {
     void should_throw_parking_lot_is_full_exception_when_park_given_A_B_is_full() {
         // given
         Car myCar = new Car();
-        ParkingLot parkA = new ParkingLot(1);
-        ParkingLot parkB = new ParkingLot(1);
-        GraduateParkingBoy boy = new GraduateParkingBoy(List.of(parkA, parkB));
+        ParkingManagement parkA = new ParkingLot(1);
+        ParkingManagement parkB = new ParkingLot(1);
+        ParkingManagement boy = new GraduateParkingBoy(List.of(parkA, parkB));
 
         parkA.park(new Car());
         parkB.park(new Car());
@@ -85,10 +85,10 @@ class GraduateParkingBoyTest {
     @Test
     void should_return_car_when_pick_up_given_A_B_parking_lot_and_the_car_is_parked_at_B() {
         // given
-        ParkingLot parkA = new ParkingLot(1);
-        ParkingLot parkB = new ParkingLot(1);
+        ParkingManagement parkA = new ParkingLot(1);
+        ParkingManagement parkB = new ParkingLot(1);
         Car myCar = new Car();
-        GraduateParkingBoy boy = new GraduateParkingBoy(List.of(parkA, parkB));
+        ParkingManagement boy = new GraduateParkingBoy(List.of(parkA, parkB));
         boy.park(new Car());
         Ticket ticket = boy.park(myCar);
 
@@ -103,10 +103,10 @@ class GraduateParkingBoyTest {
     @Test
     void should_return_car_when_pick_up_given_A_B_parking_lot_and_the_car_is_parked_at_A() {
         // given
-        ParkingLot parkA = new ParkingLot(1);
-        ParkingLot parkB = new ParkingLot(1);
+        ParkingManagement parkA = new ParkingLot(1);
+        ParkingManagement parkB = new ParkingLot(1);
         Car myCar = new Car();
-        GraduateParkingBoy boy = new GraduateParkingBoy(List.of(parkA, parkB));
+        ParkingManagement boy = new GraduateParkingBoy(List.of(parkA, parkB));
         Ticket ticket = boy.park(myCar);
         boy.park(new Car());
 
@@ -122,11 +122,11 @@ class GraduateParkingBoyTest {
     @Test
     void should_throw_invalid_ticket_exception_when_pickup_given_a_used_ticket() {
         // given
-        ParkingLot parkA = new ParkingLot(1);
+        ParkingManagement parkA = new ParkingLot(1);
         Car myCar = new Car();
         Ticket ticket = parkA.park(myCar);
-        parkA.pickUp(ticket);
-        GraduateParkingBoy boy = new GraduateParkingBoy(List.of(parkA));
+        parkA.pickup(ticket);
+        ParkingManagement boy = new GraduateParkingBoy(List.of(parkA));
 
         // when & then
         assertThatThrownBy(() -> boy.pickup(ticket))
