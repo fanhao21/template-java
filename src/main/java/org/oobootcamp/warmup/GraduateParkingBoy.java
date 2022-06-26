@@ -2,14 +2,14 @@ package org.oobootcamp.warmup;
 
 import java.util.List;
 
-public class GraduateParkingBoy extends ParkingDelegator {
+public class GraduateParkingBoy extends ParkingBoy {
 
-    public GraduateParkingBoy(List<ParkingManagement> parkingManagements) {
-        super(parkingManagements);
+    public GraduateParkingBoy(List<ParkingLot> parkingLots) {
+        super(parkingLots);
     }
 
     @Override
-    protected List<ParkingManagement> orderParkingManagements() {
-        return parkingManagements;
+    protected List<ParkingLot> orderParkingLots() {
+        return parkingLots;
     }
 }

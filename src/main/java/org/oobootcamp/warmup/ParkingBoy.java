@@ -2,17 +2,16 @@ package org.oobootcamp.warmup;
 
 import java.util.List;
 
-public class ParkingManager implements Parking {
+public abstract class ParkingBoy implements Parking {
+    protected final List<ParkingLot> parkingLots;
 
-    private final List<Parking> parkingList;
-
-    public ParkingManager(List<Parking> parkingList) {
-        this.parkingList = parkingList;
+    protected ParkingBoy(List<ParkingLot> parkingLots) {
+        this.parkingLots = parkingLots;
     }
 
     @Override
     public Ticket park(Car car) throws ParkingFullException {
-        for (Parking lot : parkingList) {
+        for (ParkingLot lot : orderParkingLots()) {
             try {
                 return lot.park(car);
             } catch (ParkingFullException ignored) {
@@ -23,7 +22,7 @@ public class ParkingManager implements Parking {
 
     @Override
     public Car pickup(Ticket ticket) throws TicketInvalidException {
-        for (Parking parkingLot : parkingList) {
+        for (ParkingLot parkingLot : parkingLots) {
             try {
                 return parkingLot.pickup(ticket);
             } catch (RuntimeException ignored) {
@@ -31,4 +30,6 @@ public class ParkingManager implements Parking {
         }
         throw new TicketInvalidException();
     }
+
+    protected abstract List<ParkingLot> orderParkingLots();
 }

@@ -3,7 +3,7 @@ package org.oobootcamp.warmup;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParkingLot implements ParkingManagement {
+public class ParkingLot implements Parking {
     private final Map<Ticket, Car> ticketCarMap;
     private final Integer capacity;
 
@@ -32,7 +32,6 @@ public class ParkingLot implements ParkingManagement {
         return car;
     }
 
-    @Override
     public int vacancyNum() {
         return capacity - ticketCarMap.size();
     }

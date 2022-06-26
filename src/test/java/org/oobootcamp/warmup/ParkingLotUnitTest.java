@@ -12,7 +12,7 @@ class ParkingLotUnitTest {
     void should_get_a_parking_ticket_when_parking_given_a_car_and_available_lots() {
         // given
         Integer capacity = 1;
-        ParkingManagement parkingLot = new ParkingLot(capacity);
+        Parking parkingLot = new ParkingLot(capacity);
         Car car = new Car();
 
         // when
@@ -28,7 +28,7 @@ class ParkingLotUnitTest {
     void should_throw_parking_lot_is_full_exception_when_park_given_a_car_and_no_available_lots() {
         // given
         Integer capacity = 1;
-        ParkingManagement parkingLot = new ParkingLot(capacity);
+        Parking parkingLot = new ParkingLot(capacity);
         parkingLot.park(new Car());
         Car car = new Car();
 
@@ -46,7 +46,7 @@ class ParkingLotUnitTest {
         // given
         Car parkedCar = new Car();
         Integer capacity = 3;
-        ParkingManagement parkingLot = new ParkingLot(capacity);
+        Parking parkingLot = new ParkingLot(capacity);
         Ticket ticket = parkingLot.park(parkedCar);
 
         // when
@@ -63,7 +63,7 @@ class ParkingLotUnitTest {
         // given
         Integer capacity = 10;
         Car car = new Car();
-        ParkingManagement parkingLot = new ParkingLot(capacity);
+        Parking parkingLot = new ParkingLot(capacity);
         Ticket ticket = parkingLot.park(car);
         parkingLot.pickup(ticket);
 
@@ -80,7 +80,7 @@ class ParkingLotUnitTest {
     void should_get_no_car_when_retrieve_given_an_invalid_ticket() {
         // given
         Integer capacity = 10;
-        ParkingManagement parkingLot = new ParkingLot(capacity);
+        Parking parkingLot = new ParkingLot(capacity);
 
         // when & then
         Ticket ticket = new Ticket();
